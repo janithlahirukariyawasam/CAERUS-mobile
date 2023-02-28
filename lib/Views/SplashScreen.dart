@@ -17,8 +17,8 @@ class _SplashState extends State<Splash> {
   }
 
   _navigatetologin()async{
-    await Future.delayed(Duration(microseconds: 1500),(){});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'CAERUS',)));
+    await Future.delayed(Duration(seconds: 2),(){});
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainLoginScreen()));
   }
 
   Widget build(BuildContext context) {
@@ -27,9 +27,6 @@ class _SplashState extends State<Splash> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-
-            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
