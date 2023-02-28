@@ -1,3 +1,4 @@
+import 'package:caerus/Views/UserAuthentication/SignUpScreen.dart';
 import 'package:flutter/material.dart';
 
 class MainLoginScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class _MyStatefulWidgetState extends State<MainLoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("CAERUS LOGIN")),
+        title:  Text("CAERUS LOGIN"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -77,6 +78,7 @@ class _MyStatefulWidgetState extends State<MainLoginScreen> {
                           style: TextStyle(fontSize: 20),
                         ),
                         onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen()));
                           //signup screen
                         },
                       )
