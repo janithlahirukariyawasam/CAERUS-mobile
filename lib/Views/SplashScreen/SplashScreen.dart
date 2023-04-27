@@ -1,6 +1,6 @@
 import 'package:caerus/main.dart';
 import 'package:flutter/material.dart';
-import 'package:caerus/Views/MainPage.dart';
+import 'package:caerus/Views/MainPage/MainPage.dart';
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
