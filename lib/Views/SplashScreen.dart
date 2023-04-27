@@ -1,7 +1,6 @@
 import 'package:caerus/main.dart';
 import 'package:flutter/material.dart';
-
-import 'UserAuthentication/MainLoginScreen.dart';
+import 'package:caerus/Views/MainPage.dart';
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
 
@@ -18,11 +17,12 @@ class _SplashState extends State<Splash> {
 
   _navigatetologin()async{
     await Future.delayed(Duration(seconds: 2),(){});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainLoginScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white60,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
