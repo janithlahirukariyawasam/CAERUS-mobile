@@ -1,4 +1,5 @@
 import 'package:caerus/Views/Notices.dart';
+import 'package:caerus/Views/Planner.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
@@ -187,34 +188,42 @@ class _MainPageState extends State<MainPage> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                child: Container(
-                  height: 60,
-                  child: Center(child: Text("Planner",style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),)),
-                  decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow:  [
-                        BoxShadow(
-                          color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
-                          spreadRadius: 1, //spread radius
-                          blurRadius: 3, // blur radius
-                          offset: Offset(0, 2), // changes position of shadow
-                          //first paramerter of offset is left-right
-                          //second parameter is top to down
-                        ),
-                        //you can set more BoxShadow() here
-                      ],
-                ),
-              ),),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Planner()),
+                    );
+                  },
+                  child: Container(
+                    height: 60,
+                    child: Center(child: Text("Planned Works   (සැලසුම් කළ වැඩ)",style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),)),
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow:  [
+                          BoxShadow(
+                            color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
+                            spreadRadius: 1, //spread radius
+                            blurRadius: 3, // blur radius
+                            offset: Offset(0, 2), // changes position of shadow
+                            //first paramerter of offset is left-right
+                            //second parameter is top to down
+                          ),
+                          //you can set more BoxShadow() here
+                        ],
+                  ),
+              ),
+                ),),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
                   height: 60,
-                  child: Center(child: Text("Chat",style: TextStyle(
+                  child: Center(child: Text("Chat (කතාබස් කරන්න)",style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w600,
@@ -239,7 +248,7 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
                   height: 60,
-                  child: Center(child: Text("Machinery",style: TextStyle(
+                  child: Center(child: Text("Machines (යන්ත්ර සහ උපකරණ)",style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w600,
@@ -263,12 +272,15 @@ class _MainPageState extends State<MainPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
-                  height: 60,
-                  child: Center(child: Text("Equipment",style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),)),
+                  height: 80,
+                  child: Center(child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 5, 5),
+                    child: Text("Parts Under Repair (අලුත්වැඩියාව යටතේ ඇති කොටස්)",style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.grey.shade700,
+                      fontWeight: FontWeight.w600,
+                    ),),
+                  )),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
                     borderRadius: BorderRadius.circular(6),
@@ -289,7 +301,7 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
                   height: 60,
-                  child: Center(child: Text("Factory  Map",style: TextStyle(
+                  child: Center(child: Text("Employees (සේවකයින්)",style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w600,
@@ -347,7 +359,7 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
                   height: 60,
-                  child: Center(child: Text("My Profile",style: TextStyle(
+                  child: Center(child: Text("My Profile (මගේ ප්‍රොෆයිලය)",style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w600,

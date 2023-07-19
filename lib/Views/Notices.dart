@@ -12,7 +12,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Future<void> _fetchNotifications() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.5:8800/hr'));
+      final response = await http.get(Uri.parse('http://192.168.1.3:8800/hr'));
       final responseData = json.decode(response.body);
       print("Hello");
       print(responseData);
