@@ -14,8 +14,6 @@ class _NotificationPageState extends State<NotificationPage> {
     try {
       final response = await http.get(Uri.parse('http://192.168.1.3:8800/hr'));
       final responseData = json.decode(response.body);
-      print("Hello");
-      print(responseData);
       setState(() {
         notifications = responseData;
       });
@@ -69,7 +67,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(6),
                                             boxShadow: [BoxShadow(
-                                              color: Colors.grey.shade900.withOpacity(0.06), //color of shadow
+                                              color: Colors.yellow.shade900.withOpacity(0.3), //color of shadow
                                               spreadRadius: 2, //spread radius
                                               blurRadius: 2, // blur radius
                                               offset: Offset(0, 3),
@@ -79,9 +77,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                           child: Column(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(18.0),
                                                 child: Container(
-                                                    height: 50,
+                                                    //height: 150,
                                                     child: Text(
                                                       notifications[index]
                                                           ['notification'],
@@ -92,7 +90,12 @@ class _NotificationPageState extends State<NotificationPage> {
                                                     )),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.all(8.0),
+                                                padding: const EdgeInsets.all(18.0),
+                                                child: Container(
+                                                    child: Text(notifications[index]['date'].toString().substring(0, 10),style: TextStyle(color: Colors.white.withOpacity(0.9),fontWeight: FontWeight.w900))),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.all(18.0),
                                                 child: Container(
                                                     child: Text(notifications[index]
                                                         ['desc'])),
@@ -113,7 +116,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         boxShadow: [BoxShadow(
-                          color: Colors.grey.shade900.withOpacity(0.06), //color of shadow
+                          color: Colors.red.shade900.withOpacity(0.4), //color of shadow
                           spreadRadius: 2, //spread radius
                           blurRadius: 2, // blur radius
                           offset: Offset(0, 3),
@@ -121,8 +124,14 @@ class _NotificationPageState extends State<NotificationPage> {
                         color: Colors.black12,
                       ),
                       child: ListTile(
-                        title: Text(notifications[index]['notification'],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                        subtitle: Text(notifications[index]['date'].toString()),
+                        title: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Text(notifications[index]['notification'],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
+                        ),
+                        subtitle: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(notifications[index]['date'].toString().substring(0, 10),style: TextStyle(color: Colors.white.withOpacity(0.7)),),
+                        ),
                       ),
                     ),
                   ),
