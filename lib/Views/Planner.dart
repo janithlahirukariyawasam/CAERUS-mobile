@@ -14,10 +14,13 @@ class _PlannerState extends State<Planner> {
 
   Future<void> _fetchPlanner() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.3:8800/planner'));
+      final response =
+          await http.get(Uri.parse('https://192.168.92.223:8800/planner'));
       final responseData = json.decode(response.body);
+      List<dynamic> filteredPlanner = responseData.where((element) => element['status'] == 1).toList();
+
       setState(() {
-        planner = responseData;
+        planner = filteredPlanner;
       });
     } catch (error) {
       print(error);
@@ -32,7 +35,7 @@ class _PlannerState extends State<Planner> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black54,
         title: Text('Planned Works   (සැලසුම් කළ වැඩ)'),
@@ -51,60 +54,185 @@ class _PlannerState extends State<Planner> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => Scaffold(
-                            appBar: AppBar(
-                              backgroundColor: Colors.black54,
-                              title: Text('Planned Information    ( සැලසුම් කළ තොරතුරු )'),
-                            ),
-                            body: SafeArea(
-                              child: Container(
-                                height: MediaQuery.of(context).size.height,
-                                width: MediaQuery.of(context).size.width,
-                                color: Colors.black26,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: SingleChildScrollView(
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.height,
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        boxShadow: [BoxShadow(
-                                          color: Colors.grey.shade900.withOpacity(0.06), //color of shadow
-                                          spreadRadius: 2, //spread radius
-                                          blurRadius: 2, // blur radius
-                                          offset: Offset(0, 3),
-                                        ),],
-                                        color: Colors.black12,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                                height: 50,
-                                                child: Text(
-                                                  planner[index]
-                                                  ['msg'],
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                )),
+                                appBar: AppBar(
+                                  backgroundColor: Colors.black54,
+                                  title: Text(
+                                      'Planned Information    ( සැලසුම් කළ තොරතුරු )'),
+                                ),
+                                body: SafeArea(
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height,
+                                    width: MediaQuery.of(context).size.width,
+                                    color: Colors.black26,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: SingleChildScrollView(
+                                        child: Container(
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey.shade50,//color of shadow
+                                                spreadRadius: 2, //spread radius
+                                                blurRadius: 2, // blur radius
+                                                offset: Offset(0, 3),
+                                              ),
+                                            ],
+                                            color: Colors.white,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Container(
-                                                child: Text(planner[index]
-                                                ['machinename'])),
-                                          )
-                                        ],
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    alignment: Alignment.topLeft,
+                                                    color: Colors.white,
+                                                    //height: MediaQuery.of(context).size.height,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(18.0),
+                                                      child: Column(
+                                                        children: [
+                                                          Text(
+                                                            "Planned Task\n\n",
+                                                            style: TextStyle(
+                                                              fontSize: 28,
+                                                              fontWeight:
+                                                              FontWeight.w700,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                                planner[index]['msg'],
+                                                            style: TextStyle(
+                                                              color: Colors.red,
+                                                              fontSize: 36,
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    color: Colors.pink.shade50,
+                                                    alignment: Alignment.center,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          height: 50,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            "Machine name : " +
+                                                                planner[index][
+                                                                    'machinename'],
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 50,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            "Unique ID : " +
+                                                                planner[index][
+                                                                    'uniqueName'],
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          height: 50,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            "Department is : " +
+                                                                planner[index][
+                                                                    'departmentname'],
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    color:
+                                                        Colors.yellow.shade50,
+                                                    height: 80,
+                                                    child: Text(
+                                                      "Planned Date : " +
+                                                          planner[index]
+                                                              ['date'],
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    )),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                    alignment: Alignment.center,
+                                                    color:
+                                                        Colors.yellow.shade50,
+                                                    //height: 80,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              18.0),
+                                                      child: Text(
+                                                        "Machine Description \n\n\n " +
+                                                            planner[index]
+                                                                ['smallDes'],
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          )),
+                              )),
                     );
                   },
                   child: Padding(
@@ -112,17 +240,35 @@ class _PlannerState extends State<Planner> {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
-                        boxShadow: [BoxShadow(
-                          color: Colors.grey.shade900.withOpacity(0.06), //color of shadow
-                          spreadRadius: 2, //spread radius
-                          blurRadius: 2, // blur radius
-                          offset: Offset(0, 3),
-                        ),],
-                        color: Colors.black12,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.shade900
+                                .withOpacity(0.06), //color of shadow
+                            spreadRadius: 2, //spread radius
+                            blurRadius: 2, // blur radius
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                        color: Colors.white,
                       ),
                       child: ListTile(
-                        title: Text(planner[index]['msg'],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16),),
-                        subtitle: Text(planner[index]['departmentname'] + planner[index]['machinename']),
+                        title: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text(
+                            "TODO : "+planner[index]['msg'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 22),
+                          ),
+                        ),
+                        subtitle: Container(
+                          color: Colors.pink.shade50,
+                          child: Padding(
+                            padding: const EdgeInsets.all(18.0),
+                            child: Text("Department name   "+planner[index]['departmentname'] +
+                                " \n " +
+                                "Machine name   "+planner[index]['machinename']),
+                          ),
+                        ),
                       ),
                     ),
                   ),

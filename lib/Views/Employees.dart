@@ -11,14 +11,21 @@ class Employees extends StatefulWidget {
 
 class _EmployeesState extends State<Employees> {
   List<dynamic> employees = [];
+  List<dynamic> filterEmployeesByStatus(List<dynamic> employees) {
+    return employees.where((employee) => employee['status'] != 0).toList();
+  }
 
   Future<void> _fetchEmployees() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.3:8800/employees'));
+          await http.get(Uri.parse('https://192.168.92.223:8800/employees'));
       final responseData = json.decode(response.body);
+
+      // Filter the employees list based on the 'status' attribute
+      List<dynamic> filteredEmployees = filterEmployeesByStatus(responseData);
+
       setState(() {
-        employees = responseData;
+        employees = filteredEmployees;
       });
     } catch (error) {
       print(error);
@@ -75,9 +82,7 @@ class _EmployeesState extends State<Employees> {
                                                 BorderRadius.circular(6),
                                             boxShadow: [
                                               BoxShadow(
-                                                color: Colors.yellow.shade900
-                                                    .withOpacity(
-                                                        0.3), //color of shadow
+                                                color: Colors.white, //color of shadow
                                                 spreadRadius: 2, //spread radius
                                                 blurRadius: 2, // blur radius
                                                 offset: Offset(0, 3),
@@ -87,17 +92,18 @@ class _EmployeesState extends State<Employees> {
                                           ),
                                           child: Column(
                                             children: [
+                                              SizedBox(height: 50,),
                                               Center(
                                                 child: Padding(
                                                   padding: const EdgeInsets.all(
                                                       18.0),
                                                   child: Container(
-                                                    width: 150,
-                                                    height: 150,
+                                                    width: 250,
+                                                    height: 250,
                                                     decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       image: DecorationImage(
-                                                        image: NetworkImage(
+                                                        image: NetworkImage('https://192.168.92.223:8800/'+
                                                             employees[index]
                                                                 ['imageURL']),
                                                         fit: BoxFit.cover,
@@ -106,18 +112,35 @@ class _EmployeesState extends State<Employees> {
                                                   ),
                                                 ),
                                               ),
+
                                               Center(
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(18.0),
+                                                  padding: const EdgeInsets.all(
+                                                      18.0),
                                                   child: Container(
-                                                      width: MediaQuery.of(context).size.width,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
                                                       child: Center(
                                                         child: Text(
-                                                            employees[index]['name'],
-                                                            style: TextStyle(color: Colors.white.withOpacity(0.5),fontWeight: FontWeight.w900,fontSize: 20)),
+                                                            employees[index]
+                                                                ['name'],
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w900,
+                                                                fontSize: 20)),
                                                       )),
                                                 ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.all(18.0),
+                                                child: Container(
+                                                    child: Text(employees[index]
+                                                    ['positionName'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),)),
                                               ),
                                               Padding(
                                                 padding:
@@ -125,6 +148,13 @@ class _EmployeesState extends State<Employees> {
                                                 child: Container(
                                                     child: Text(employees[index]
                                                         ['email'])),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                const EdgeInsets.all(18.0),
+                                                child: Container(
+                                                    child: Text("Tel: " +employees[index]
+                                                    ['phone'])),
                                               )
                                             ],
                                           ),
@@ -150,7 +180,7 @@ class _EmployeesState extends State<Employees> {
                               offset: Offset(0, 3),
                             ),
                           ],
-                          color: Colors.black12,
+                          color: Colors.white,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -164,7 +194,8 @@ class _EmployeesState extends State<Employees> {
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                          employees[index]['imageURL']),
+                                          'https://192.168.92.223:8800/' +
+                                              employees[index]['imageURL']),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -174,6 +205,7 @@ class _EmployeesState extends State<Employees> {
                                   child: Container(
                                     child: Center(
                                       child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(5.0),

@@ -1,6 +1,11 @@
+import 'package:caerus/Views/Equipment.dart';
+import 'package:caerus/Views/Issues.dart';
+import 'package:caerus/Views/Machines.dart';
 import 'package:caerus/Views/Notices.dart';
 import 'package:caerus/Views/Planner.dart';
 import 'package:caerus/Views/Employees.dart';
+import 'package:caerus/Views/ManageIssues.dart';
+import 'package:caerus/Views/Auth/UpdateCredintiols.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,10 +22,11 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _fetchIssues() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.3:8800/issues'));
+      final response = await http.get(Uri.parse('https://192.168.92.223:8800/issues'));
       final responseData = json.decode(response.body);
+      final filteredIssues = responseData.where((issue) => issue['status'] == 1).toList();
       setState(() {
-        issues = responseData;
+        issues = filteredIssues;
       });
     } catch (error) {
       print(error);
@@ -71,142 +77,74 @@ class _MainPageState extends State<MainPage> {
                       //you can set more BoxShadow() here
                     ],
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        child: Container(
-                          color: Colors.red.shade200,
-                          height: 40,
-                          child: Center(
-                            child: Text(
-                              'Issues',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black54,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => IssuePage()),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Container(
+                          child: Container(
+                            color: Colors.red.shade200,
+                            height: 40,
+                            child: Center(
+                              child: Text(
+                                'Issues',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.black54,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: Container(
-                            height: 430,
-                            child: ListView(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Container(
+                              height: 430,
+                              child: /*ListView(
+                                children: [
+
+                                  Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                      height: 40,
+                                      color: Colors.red.shade100,
+                                      child: Text("Text issue"),
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Container(
-                                    height: 40,
-                                    color: Colors.red.shade100,
-                                    child: Text("Text issue"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ],
+
+                                ],
+                              ),*/
+                              ListView.builder(
+                                itemCount: issues.length,
+                                itemBuilder: (context, index) {
+                                  final issue = issues[index];
+
+                                  return Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Container(
+                                     // height: 40,
+                                      color: Colors.red.shade100,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(20, 10, 10, 20),
+                                        child: Text(issue['des'],style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
+                                      ), // Assuming the issue data has a 'description' field.
+                                    ),
+                                  );
+                                },
+                              )
+                            )),
+                      ],
+                    ),
                   ),
                   height: 500,
                 ),
@@ -217,16 +155,69 @@ class _MainPageState extends State<MainPage> {
                   onTap: () {
                     Navigator.push(
                       context,
+                      MaterialPageRoute(builder: (context) =>ManageIssues()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Machine Breakdowns",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(යන්ත්‍ර බිඳවැටීම්)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
+                          spreadRadius: 1, //spread radius
+                          blurRadius: 3, // blur radius
+                          offset: Offset(0, 2), // changes position of shadow
+                          //first paramerter of offset is left-right
+                          //second parameter is top to down
+                        ),
+                        //you can set more BoxShadow() here
+                      ],
+                    ),
+                  ),
+                ),),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
                       MaterialPageRoute(builder: (context) => Planner()),
                     );
                   },
                   child: Container(
-                    height: 60,
-                    child: Center(child: Text("Planned Works   (සැලසුම් කළ වැඩ)",style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),)),
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Planned Works",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(සැලසුම් කළ වැඩ)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
                     decoration: BoxDecoration(
                         color: Colors.grey.shade200,
                         borderRadius: BorderRadius.circular(6),
@@ -244,7 +235,7 @@ class _MainPageState extends State<MainPage> {
                   ),
               ),
                 ),),
-              Padding(
+             /* Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
                 child: Container(
                   height: 60,
@@ -268,58 +259,104 @@ class _MainPageState extends State<MainPage> {
                       //you can set more BoxShadow() here
                     ],
                   ),
-                ),),
+                ),),*/
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                child: Container(
-                  height: 60,
-                  child: Center(child: Text("Machines (යන්ත්ර සහ උපකරණ)",style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),)),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(6),
-                    boxShadow:  [
-                      BoxShadow(
-                        color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
-                        spreadRadius: 1, //spread radius
-                        blurRadius: 3, // blur radius
-                        offset: Offset(0, 2), // changes position of shadow
-                        //first paramerter of offset is left-right
-                        //second parameter is top to down
-                      ),
-                      //you can set more BoxShadow() here
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>Machines()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Machines",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(යන්ත්ර සහ උපකරණ)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
+                          spreadRadius: 1, //spread radius
+                          blurRadius: 3, // blur radius
+                          offset: Offset(0, 2), // changes position of shadow
+                          //first paramerter of offset is left-right
+                          //second parameter is top to down
+                        ),
+                        //you can set more BoxShadow() here
+                      ],
+                    ),
                   ),
                 ),),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                child: Container(
-                  height: 80,
-                  child: Center(child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 5, 5),
-                    child: Text("Parts Under Repair (අලුත්වැඩියාව යටතේ ඇති කොටස්)",style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),),
-                  )),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(6),
-                    boxShadow:  [
-                      BoxShadow(
-                        color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
-                        spreadRadius: 1, //spread radius
-                        blurRadius: 3, // blur radius
-                        offset: Offset(0, 2), // changes position of shadow
-                        //first paramerter of offset is left-right
-                        //second parameter is top to down
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>EquipmentPage()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 5, 5, 5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Parts Under Repair",style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.w600,
+                          ),),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                              child: Text("(අලුත්වැඩියාව යටතේ ඇති",style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.grey.shade700,
+                                fontWeight: FontWeight.w600,
+                              ),),
+                            ),
+                          ),
+                          Text("කොටස්)",style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.w600,
+                          ),),
+                        ],
                       ),
-                      //you can set more BoxShadow() here
-                    ],
+                    )),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
+                          spreadRadius: 1, //spread radius
+                          blurRadius: 3, // blur radius
+                          offset: Offset(0, 2), // changes position of shadow
+                          //first paramerter of offset is left-right
+                          //second parameter is top to down
+                        ),
+                        //you can set more BoxShadow() here
+                      ],
+                    ),
                   ),
                 ),),
               Padding(
@@ -332,12 +369,22 @@ class _MainPageState extends State<MainPage> {
                     );
                   },
                   child: Container(
-                    height: 60,
-                    child: Center(child: Text("Employees (සේවකයින්)",style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),)),
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Employees",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(සේවකයින්)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(6),
@@ -365,12 +412,22 @@ class _MainPageState extends State<MainPage> {
                     );
                   },
                   child: Container(
-                    height: 60,
-                    child: Center(child: Text("Notice Board (දැන්වීම් පුවරුව)",style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey.shade700,
-                      fontWeight: FontWeight.w600,
-                    ),)),
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Notice Board ",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(දැන්වීම් පුවරුව)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(6),
@@ -390,27 +447,45 @@ class _MainPageState extends State<MainPage> {
                 ),),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-                child: Container(
-                  height: 60,
-                  child: Center(child: Text("My Profile (මගේ ප්‍රොෆයිලය)",style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey.shade700,
-                    fontWeight: FontWeight.w600,
-                  ),)),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(6),
-                    boxShadow:  [
-                      BoxShadow(
-                        color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
-                        spreadRadius: 1, //spread radius
-                        blurRadius: 3, // blur radius
-                        offset: Offset(0, 2), // changes position of shadow
-                        //first paramerter of offset is left-right
-                        //second parameter is top to down
-                      ),
-                      //you can set more BoxShadow() here
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>LoginScreenMy()),
+                    );
+                  },
+                  child: Container(
+                    height: 100,
+                    child: Center(child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("My Profile ",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                        Text("(මගේ ප්‍රොෆයිලය)",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.grey.shade700,
+                          fontWeight: FontWeight.w600,
+                        ),),
+                      ],
+                    )),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow:  [
+                        BoxShadow(
+                          color: Colors.grey.shade900.withOpacity(0.5), //color of shadow
+                          spreadRadius: 1, //spread radius
+                          blurRadius: 3, // blur radius
+                          offset: Offset(0, 2), // changes position of shadow
+                          //first paramerter of offset is left-right
+                          //second parameter is top to down
+                        ),
+                        //you can set more BoxShadow() here
+                      ],
+                    ),
                   ),
                 ),),
               SizedBox(

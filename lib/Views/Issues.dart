@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class EquipmentPage extends StatefulWidget {
+class IssuePage extends StatefulWidget {
   @override
-  _EquipmentPageState createState() => _EquipmentPageState();
+  _IssuePageState createState() => _IssuePageState();
 }
 
-class _EquipmentPageState extends State<EquipmentPage> {
-  List<dynamic> equipments = [];
+class _IssuePageState extends State<IssuePage> {
+  List<dynamic> issues = [];
 
-  Future<void> _fetchEquipments() async {
+  Future<void> _fetchIssues() async {
     try {
-      final response = await http.get(Uri.parse('https://192.168.92.223:8800/repairs'));
+      final response =
+          await http.get(Uri.parse('https://192.168.92.223:8800/issues'));
       final responseData = json.decode(response.body);
 
-      // Filter the data based on the 'status' field
-      List<dynamic> filteredEquipments = responseData.where((equipment) => equipment['status'] == 1).toList();
+      // Filter the data based on the 'status' field (if needed)
+      List<dynamic> filteredIssues =
+          responseData.where((issue) => issue['status'] == 1).toList();
 
       setState(() {
-        equipments = filteredEquipments;
+        issues = filteredIssues;
       });
     } catch (error) {
       print(error);
@@ -29,7 +31,33 @@ class _EquipmentPageState extends State<EquipmentPage> {
   @override
   void initState() {
     super.initState();
-    _fetchEquipments();
+    _fetchIssues();
+  }
+
+  Color _getColorForPriority(int priority) {
+    switch (priority) {
+      case 0:
+        return Colors.green.shade50; // or any color you want for priority 1
+      case 1:
+        return Colors.yellow.shade50; // or any color you want for priority 2
+      case 2:
+        return Colors.red.shade100; // or any color you want for priority 3
+      default:
+        return Colors.black; // or any default color
+    }
+  }
+
+  String getPriorityDescription(int priority) {
+    switch (priority) {
+      case 0:
+        return "Low priority";
+      case 1:
+        return "Average priority";
+      case 2:
+        return "High priority";
+      default:
+        return "Unknown priority";
+    }
   }
 
   @override
@@ -37,7 +65,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black54,
-        title: Text('Equipments   ( අලුත්වැඩියා යටතේ )'),
+        title: Text('Issues Page   ( බිඳවැටීම් )'),
       ),
       body: Container(
         color: Colors.black26,
@@ -45,7 +73,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
           padding: const EdgeInsets.all(14.0),
           child: Container(
             child: ListView.builder(
-              itemCount: equipments.length,
+              itemCount: issues.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
@@ -55,7 +83,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                         builder: (context) => Scaffold(
                           appBar: AppBar(
                             backgroundColor: Colors.black54,
-                            title: Text('Under Repair    ( අලුත්වැඩියා යටතේ )'),
+                            title: Text('Issue Details'),
                           ),
                           body: SafeArea(
                             child: Container(
@@ -94,14 +122,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                               child: Column(
                                                 children: [
                                                   Text(
-                                                    "Equipment name," ,
-                                                    style: TextStyle(
-                                                      fontSize: 28,
-                                                      fontWeight: FontWeight.w700,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    equipments[index]['partname'],
+                                                    issues[index]['des'],
                                                     style: TextStyle(
                                                       fontSize: 46,
                                                       fontWeight: FontWeight.w700,
@@ -121,31 +142,6 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                           padding: const EdgeInsets.all(0.0),
                                           child: Container(
                                             width: 500,
-                                            color: Colors.pink.shade50,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(18.0),
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Return Date :  " + equipments[index]['returndate'].toString().substring(0, 10),
-                                                    style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w900,fontSize: 18),
-                                                  ),
-                                                  SizedBox(height: 8,),
-                                                  Text(
-                                                    "Given Date :  " + equipments[index]['givendate'].toString().substring(0, 10),
-                                                    style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w900,fontSize: 18),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-
-                                        Padding(
-                                          padding: const EdgeInsets.all(0.0),
-                                          child: Container(
-                                            width: 500,
                                             color: Colors.blue.shade50,
                                             child: Padding(
                                               padding: const EdgeInsets.all(18.0),
@@ -153,12 +149,12 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    "Department :  " + equipments[index]['departmentname'],
+                                                    "Department :  " + issues[index]['departmentname'],
                                                     style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w900,fontSize: 18),
                                                   ),
                                                   SizedBox(height: 8,),
                                                   Text(
-                                                    "Machine :  " + equipments[index]['machinename'],
+                                                    "Machine :  " + issues[index]['machinename'],
                                                     style: TextStyle(color: Colors.black45, fontWeight: FontWeight.w900,fontSize: 18),
                                                   ),
                                                 ],
@@ -166,20 +162,23 @@ class _EquipmentPageState extends State<EquipmentPage> {
                                             ),
                                           ),
                                         ),
+                                        SizedBox(height: 50,),
                                         Padding(
-                                          padding: const EdgeInsets.all(0.0),
+                                          padding: const EdgeInsets.all(18.0),
                                           child: Container(
-                                            width: 400,
-                                            color: Colors.white,
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(18.0),
-                                              child: Text(
-                                                " " + (equipments[index]['repairnote'] ?? 'No Repair Note'),
-                                                style: TextStyle(fontWeight: FontWeight.w300, fontSize: 16),
-                                              ),
+                                            child: Text(
+                                              issues[index]['dDes'] ?? 'No description available',style: TextStyle(fontSize: 18),
                                             ),
                                           ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(18.0),
+                                          child: Container(child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(getPriorityDescription(issues[index]['priority']),style: TextStyle(fontSize: 16),),
+                                          ),color: Colors.red.shade100,),
                                         )
+
                                       ],
                                     ),
                                   ),
@@ -198,9 +197,9 @@ class _EquipmentPageState extends State<EquipmentPage> {
                         borderRadius: BorderRadius.circular(6),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.purple.shade900.withOpacity(0.4), //color of shadow
-                            spreadRadius: 2, //spread radius
-                            blurRadius: 2, // blur radius
+                            color: Colors.yellow.shade900.withOpacity(0.4),
+                            spreadRadius: 2,
+                            blurRadius: 2,
                             offset: Offset(0, 3),
                           ),
                         ],
@@ -215,22 +214,34 @@ class _EquipmentPageState extends State<EquipmentPage> {
                               SizedBox(
                                 height: 9,
                               ),
-                              Text(
-                                "Part name : " + equipments[index]['partname'] + "\n",
-                                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 26, color: Colors.black),
-                              ),
-                              Text(
-                                "Machine name : " + equipments[index]['machinename'],
-                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Breakdown\n",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 22,
+                                        color: Colors.black),
+                                  ),
+                                  Container(
+                                    color: _getColorForPriority(
+                                        issues[index]['priority']),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        issues[index]['des'],
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Return data : " + equipments[index]['returndate'].toString().substring(0, 10),
-                            style: TextStyle(color: Colors.black87.withOpacity(0.7)),
                           ),
                         ),
                       ),
@@ -245,5 +256,3 @@ class _EquipmentPageState extends State<EquipmentPage> {
     );
   }
 }
-
-

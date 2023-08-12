@@ -1,3 +1,4 @@
+import 'package:caerus/Views/Auth/Login.dart';
 import 'package:caerus/Views/Notices.dart';
 import 'package:caerus/main.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _SplashState extends State<Splash> {
 
   _navigatetologin()async{
     await Future.delayed(Duration(seconds: 2),(){});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainPage()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => /*MainPage()*/LoginScreen()));
   }
 
   Widget build(BuildContext context) {
